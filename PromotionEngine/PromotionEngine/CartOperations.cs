@@ -82,7 +82,7 @@ namespace PromotionEngine
             switch (activePromotionDetails.PromotionName)
             {
                 case nameof(PromotionList.Promotion1):
-                    calculateOrderValue = new CalculateOrderValue(_promotion.Promotion1);
+                    calculateOrderValue = new CalculateOrderValue(_promotion.Promotion1);//Assigning active promotion function to delegate
                     break;
                 default:
                     break;

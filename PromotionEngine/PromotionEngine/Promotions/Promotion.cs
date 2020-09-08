@@ -17,11 +17,43 @@ namespace PromotionEngine.Promotions
         public Promotion(IConfiguration config)
         {
             _config = config;
-            _cartDetails = new Lazy<List<Cart>>(() => LoadCartDetails());
-            activePromotionDetails = new Lazy<ActivePromotionDetails>(() => LoadPromotionDetails());
+            _cartDetails = new Lazy<List<Cart>>(() => LoadCartDetails()); // Loading card details from appsettings.json
+            activePromotionDetails = new Lazy<ActivePromotionDetails>(() => LoadPromotionDetails());  // Loading promotion/Types details from appsettings.json
 
         }
 
+      
+
+        public int Promotion1(List<SelectedCart> skuList)
+        {
+            int orderValue = 0;
+            if (activePromotionDetails.Value.ActivePromotionTypes.Count > 0)
+            {
+                foreach (var value in activePromotionDetails.Value.ActivePromotionTypes)
+                {
+                    //Swiching all active Promomotions types and calculating OrderValue
+                    switch (value)
+                    {
+                        case nameof(Promotiontypes.Sku_A_Promotion_Type): 
+                            orderValue = GetAValue(skuList.FirstOrDefault(x => x.SKUIds == 'A'), _cartDetails);
+                            break;
+                        case nameof(Promotiontypes.Sku_B_Promotion_Type):
+                            orderValue += GetBValue(skuList.FirstOrDefault(x => x.SKUIds == 'B'), _cartDetails);
+                            break;
+                        case nameof(Promotiontypes.Sku_C_D_Promotion_Type):
+                            orderValue += GetCDValue(skuList.Where(x => x.SKUIds == 'C' || x.SKUIds == 'D'), _cartDetails);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+
+            return orderValue;
+        }
+
+        #region Private method
         private ActivePromotionDetails LoadPromotionDetails()
         {
             ActivePromotionDetails activePromotionDetails = new ActivePromotionDetails();
@@ -36,36 +68,6 @@ namespace PromotionEngine.Promotions
             _config.GetSection(nameof(Cart)).Bind(cartDetails);
             return cartDetails;
         }
-
-        public int Promotion1(List<SelectedCart> skuList)
-        {
-            int returnValue = 0;
-            if (activePromotionDetails.Value.ActivePromotionTypes.Count > 0)
-            {
-                foreach (var value in activePromotionDetails.Value.ActivePromotionTypes)
-                {
-
-                    switch (value)
-                    {
-                        case nameof(Promotiontypes.Sku_A_Promotion_Type):
-                            returnValue = GetAValue(skuList.FirstOrDefault(x => x.SKUIds == 'A'), _cartDetails);
-                            break;
-                        case nameof(Promotiontypes.Sku_B_Promotion_Type):
-                            returnValue += GetBValue(skuList.FirstOrDefault(x => x.SKUIds == 'B'), _cartDetails);
-                            break;
-                        case nameof(Promotiontypes.Sku_C_D_Promotion_Type):
-                            returnValue += GetCDValue(skuList.Where(x => x.SKUIds == 'C' || x.SKUIds == 'D'), _cartDetails);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
-
-            return returnValue;
-        }
-
         private int GetCDValue(IEnumerable<SelectedCart> selectedCart, Lazy<List<Cart>> cartDetails)
         {
             if (selectedCart == null) return 0;
@@ -142,5 +144,7 @@ namespace PromotionEngine.Promotions
                 return (count * 130) + ((selectedCart.Quantity - (sum - 3)) * valueA.UnitPrice);
             }
         }
+
+        #endregion
     }
 }
