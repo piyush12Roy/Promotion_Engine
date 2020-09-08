@@ -175,5 +175,26 @@ namespace PromotionEngine.Test
 
 
         }
+        [Test]
+        public void ScenarioC()
+        {
+            // Arrange
+            List<SelectedCart> cartList = new List<SelectedCart>();
+            cartList.Add(new SelectedCart { SKUIds = 'A', Quantity = 3 });
+            cartList.Add(new SelectedCart { SKUIds = 'B', Quantity = 5 });
+            cartList.Add(new SelectedCart { SKUIds = 'C', Quantity = 1 });
+            cartList.Add(new SelectedCart { SKUIds = 'D', Quantity = 1 });
+
+            var svc = ActivatorUtilities.CreateInstance<CartOperations>(host.Services);
+
+            //Act
+            int result = svc.CheckOut(cartList);
+
+            //Assert
+
+            Assert.AreEqual(result, 280);
+
+
+        }
     }
 }
