@@ -32,18 +32,41 @@ namespace PromotionEngine.Test
             builder.SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         }
+
+        [Ignore("Basic test for checkout method")]
         [Test]
         public void CheckOut_Method_Basic_Test_Return_0()
         {
             //Arrange
+            //var svc = ActivatorUtilities.CreateInstance<CartOperations>(host.Services);
+
+            ////Act
+            //int result = svc.CheckOut();
+
+            ////Assert
+
+            //Assert.AreEqual(result, 0);
+
+
+        }
+        [Test]
+        public void CheckOut_Method_Return_With_No_Active_Promotion()
+        {
+            // Arrange
+            List<SelectedCart> cartList = new List<SelectedCart>();
+            cartList.Add(new SelectedCart { SKUIds = 'A', Quantity = 3 });
+            cartList.Add(new SelectedCart { SKUIds = 'B', Quantity = 5 });
+            cartList.Add(new SelectedCart { SKUIds = 'C', Quantity = 1 });
+            cartList.Add(new SelectedCart { SKUIds = 'D', Quantity = 1 });
+
             var svc = ActivatorUtilities.CreateInstance<CartOperations>(host.Services);
 
             //Act
-            int result = svc.CheckOut();
+            int result = svc.CheckOut(cartList);
 
             //Assert
-
-            Assert.AreEqual(result, 0);
+            //Ex: 3*50 + 5*30 + 1*20 + 1*15
+            Assert.AreEqual(result, 335);
 
 
         }

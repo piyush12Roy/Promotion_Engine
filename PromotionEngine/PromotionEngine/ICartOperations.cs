@@ -7,6 +7,6 @@ namespace PromotionEngine
 {
    public interface ICartOperations
     {
-        int CheckOut();
+        int CheckOut(List<SelectedCart> selectedSKUs);
     }
 }
