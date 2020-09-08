@@ -23,12 +23,17 @@ namespace PromotionEngine.Promotions
 
         private ActivePromotionDetails LoadPromotionDetails()
         {
-            throw new NotImplementedException();
+            ActivePromotionDetails activePromotionDetails = new ActivePromotionDetails();
+            _config.GetSection(nameof(ActivePromotionDetails)).Bind(activePromotionDetails);
+            return activePromotionDetails;
         }
 
         private List<Cart> LoadCartDetails()
         {
-            throw new NotImplementedException();
+
+            List<Cart> cartDetails = new List<Cart>();
+            _config.GetSection(nameof(Cart)).Bind(cartDetails);
+            return cartDetails;
         }
 
         public int Promotion1(List<SelectedCart> skuList)
