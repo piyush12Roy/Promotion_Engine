@@ -112,5 +112,26 @@ namespace PromotionEngine.Test
 
 
         }
+
+        [Test]
+        public void CheckOut_Method_Return_for_Active_Promotion_for_SkuID_C_D()
+        {
+            // Arrange
+            List<SelectedCart> cartList = new List<SelectedCart>();
+            cartList.Add(new SelectedCart { SKUIds = 'C', Quantity = 2 });
+            cartList.Add(new SelectedCart { SKUIds = 'D', Quantity = 2 });
+
+
+            var svc = ActivatorUtilities.CreateInstance<CartOperations>(host.Services);
+
+            //Act
+            int result = svc.CheckOut(cartList);
+
+            //Assert
+
+            Assert.AreEqual(result, 60);
+
+
+        }
     }
 }

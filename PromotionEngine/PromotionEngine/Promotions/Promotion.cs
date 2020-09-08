@@ -66,9 +66,30 @@ namespace PromotionEngine.Promotions
             return returnValue;
         }
 
-        private int GetCDValue(IEnumerable<SelectedCart> enumerable, Lazy<List<Cart>> cartDetails)
+        private int GetCDValue(IEnumerable<SelectedCart> selectedCart, Lazy<List<Cart>> cartDetails)
         {
-            return 0;
+            if (selectedCart == null) return 0;
+            Cart valueC = cartDetails.Value.Where(x => x.SKUIds == 'C').FirstOrDefault();
+            Cart valueD = cartDetails.Value.Where(x => x.SKUIds == 'D').FirstOrDefault();
+            SelectedCart cartC = selectedCart.ToList().Where(x => x.SKUIds == 'C').FirstOrDefault();
+            SelectedCart cartD = selectedCart.Where(x => x.SKUIds == 'D').FirstOrDefault();
+
+            if (cartC == null && cartD == null) return 0;
+            if (cartC == null) return (cartD.Quantity * valueD.UnitPrice);
+            if (cartD == null) return (cartC.Quantity * valueC.UnitPrice);
+            else
+            {
+                if (cartC.Quantity == cartD.Quantity) return (cartC.Quantity * 30);
+                else if (cartC.Quantity < cartD.Quantity)
+                {
+                    return (cartC.Quantity * 30) + ((cartD.Quantity - cartC.Quantity) * 15);
+                }
+                else
+                {
+                    return (cartD.Quantity * 30) + ((cartC.Quantity - cartD.Quantity) * 20);
+                }
+            }
+
         }
 
         private int GetBValue(SelectedCart selectedCart, Lazy<List<Cart>> cartDetails)
