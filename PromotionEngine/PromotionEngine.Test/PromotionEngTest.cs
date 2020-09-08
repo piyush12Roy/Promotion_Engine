@@ -52,10 +52,10 @@ namespace PromotionEngine.Test
 
         }
         
-        //[Ignore("Basic test for promotion method")]
+        [Ignore("Basic test for promotion method")]
         [Test]
         public void CheckOut_Method_Return_With_No_Active_Promotion()
-        {
+        { 
             // Arrange
             List<SelectedCart> cartList = new List<SelectedCart>();
             cartList.Add(new SelectedCart { SKUIds = 'A', Quantity = 3 });

@@ -38,7 +38,18 @@ namespace PromotionEngine.Promotions
 
         public int Promotion1(List<SelectedCart> skuList)
         {
-            return 0;
+            int returnValue = 0;
+            if (activePromotionDetails.Value.ActivePromotionTypes.Count > 0)
+            {
+                foreach (var value in activePromotionDetails.Value.ActivePromotionTypes)
+                {
+                  
+
+                }
+            }
+
+
+            return returnValue;
         }
     }
 }
