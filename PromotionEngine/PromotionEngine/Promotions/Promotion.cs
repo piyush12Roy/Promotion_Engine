@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static PromotionEngine.Utility;
 
 namespace PromotionEngine.Promotions
 {
@@ -43,13 +44,41 @@ namespace PromotionEngine.Promotions
             {
                 foreach (var value in activePromotionDetails.Value.ActivePromotionTypes)
                 {
-                  
 
+                    switch (value)
+                    {
+                        case nameof(Promotiontypes.Sku_A_Promotion_Type):
+                            returnValue = GetAValue(skuList.FirstOrDefault(x => x.SKUIds == 'A'), _cartDetails);
+                            break;
+                        case nameof(Promotiontypes.Sku_B_Promotion_Type):
+                            returnValue += GetBValue(skuList.FirstOrDefault(x => x.SKUIds == 'B'), _cartDetails);
+                            break;
+                        case nameof(Promotiontypes.Sku_C_D_Promotion_Type):
+                            returnValue += GetCDValue(skuList.Where(x => x.SKUIds == 'C' || x.SKUIds == 'D'), _cartDetails);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
 
 
             return returnValue;
+        }
+
+        private int GetCDValue(IEnumerable<SelectedCart> enumerable, Lazy<List<Cart>> cartDetails)
+        {
+            return 0;
+        }
+
+        private int GetBValue(SelectedCart selectedCart, Lazy<List<Cart>> cartDetails)
+        {
+            return 0;
+        }
+
+        private int GetAValue(SelectedCart selectedCart, Lazy<List<Cart>> cartDetails)
+        {
+            return 0;
         }
     }
 }
