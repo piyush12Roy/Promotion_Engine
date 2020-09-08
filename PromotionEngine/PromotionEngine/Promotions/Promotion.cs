@@ -78,7 +78,26 @@ namespace PromotionEngine.Promotions
 
         private int GetAValue(SelectedCart selectedCart, Lazy<List<Cart>> cartDetails)
         {
-            return 0;
+            Cart valueA = cartDetails.Value.Where(x => x.SKUIds == 'A').FirstOrDefault();
+            if (selectedCart.Quantity < 3) return (selectedCart.Quantity * valueA.UnitPrice);
+
+            else if (selectedCart.Quantity % 3 == 0) return ((selectedCart.Quantity / 3) * 130);
+
+            else
+            {
+                int count = 0;
+                int sum = 0;
+                while (sum < selectedCart.Quantity)
+                {
+                    sum += 3;
+                    if (sum < selectedCart.Quantity)
+                    {
+                        count++;
+                    }
+                }
+
+                return (count * 130) + ((selectedCart.Quantity - (sum - 3)) * valueA.UnitPrice);
+            }
         }
     }
 }
