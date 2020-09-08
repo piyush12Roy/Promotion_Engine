@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
 using PromotionEngine.Model;
+using PromotionEngine.Promotions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,7 @@ namespace PromotionEngine.Test
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<ICartOperations, CartOperations>();
+                    services.AddSingleton<IPromotion, Promotion>();
                 })
                 .Build();
         }
@@ -49,6 +51,8 @@ namespace PromotionEngine.Test
 
 
         }
+        
+        //[Ignore("Basic test for promotion method")]
         [Test]
         public void CheckOut_Method_Return_With_No_Active_Promotion()
         {
@@ -65,8 +69,8 @@ namespace PromotionEngine.Test
             int result = svc.CheckOut(cartList);
 
             //Assert
-            //Ex: 3*50 + 5*30 + 1*20 + 1*15
-            Assert.AreEqual(result, 335);
+           
+            Assert.AreEqual(result, 0);
 
 
         }

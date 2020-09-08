@@ -38,7 +38,7 @@ namespace PromotionEngine.Promotions
 
         public int Promotion1(List<SelectedCart> skuList)
         {
-            throw new NotImplementedException();
+            return 0;
         }
     }
 }
