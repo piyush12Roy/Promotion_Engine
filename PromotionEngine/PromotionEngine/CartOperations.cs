@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using PromotionEngine.Model;
+using PromotionEngine.Promotions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,11 @@ namespace PromotionEngine
     {
         public delegate int CalculateOrderValue(List<SelectedCart> skuList);//Delegate to create active promotion class method
         private readonly IConfiguration _config;
-
-        public CartOperations(IConfiguration config)
+        private IPromotion _promotion;
+        public CartOperations(IConfiguration config, IPromotion promotion)
         {
             _config = config;
+            _promotion = promotion;
         }
         public int CheckOut(List<SelectedCart> selectedSKUs)
         {
@@ -80,7 +82,7 @@ namespace PromotionEngine
             switch (activePromotionDetails.PromotionName)
             {
                 case nameof(PromotionList.Promotion1):
-                    calculateOrderValue = null;
+                    calculateOrderValue = new CalculateOrderValue(_promotion.Promotion1);
                     break;
                 default:
                     break;
