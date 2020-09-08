@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static PromotionEngine.Utility;
 
 namespace PromotionEngine
 {
@@ -11,6 +12,7 @@ namespace PromotionEngine
     {
         public delegate int CalculateOrderValue(List<SelectedCart> skuList);//Delegate to create active promotion class method
         private readonly IConfiguration _config;
+
         public CartOperations(IConfiguration config)
         {
             _config = config;
@@ -74,8 +76,17 @@ namespace PromotionEngine
         }
         private CalculateOrderValue GetActivePromotion(ActivePromotionDetails activePromotionDetails)
         {
-            return null;
+            CalculateOrderValue calculateOrderValue = null;
+            switch (activePromotionDetails.PromotionName)
+            {
+                case nameof(PromotionList.Promotion1):
+                    calculateOrderValue = null;
+                    break;
+                default:
+                    break;
+            }
 
+            return calculateOrderValue;
 
         }
     }
