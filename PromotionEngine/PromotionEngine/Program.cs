@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PromotionEngine.Model;
+using PromotionEngine.Promotions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +23,7 @@ namespace PromotionEngine
                     .ConfigureServices((context, services) =>
                     {
                         services.AddSingleton<ICartOperations, CartOperations>();
+                        services.AddSingleton<IPromotion, Promotion>();
                     })
                     .Build();
 
